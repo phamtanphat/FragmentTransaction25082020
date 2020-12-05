@@ -13,7 +13,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     FragmentManager mFragmentManager;
-    Button mBtnAddAndroid, mBtnAddIos;
+    Button mBtnAddAndroid, mBtnAddIos, mBtnReplaceAndroid, mBtnReplaceIos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,24 +23,38 @@ public class MainActivity extends AppCompatActivity {
 
         mBtnAddIos = findViewById(R.id.buttonAddios);
         mBtnAddAndroid = findViewById(R.id.buttonAddAndroid);
+        mBtnReplaceAndroid = findViewById(R.id.buttonReplaceAndroid);
+        mBtnReplaceIos = findViewById(R.id.buttonReplaceios);
 
         mBtnAddIos.setOnClickListener(onClickListener);
         mBtnAddAndroid.setOnClickListener(onClickListener);
+        mBtnReplaceAndroid.setOnClickListener(onClickListener);
+        mBtnReplaceIos.setOnClickListener(onClickListener);
     }
+
     private OnClickListener onClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             Fragment fragment = null;
-            switch (v.getId()){
-                case R.id.buttonAddAndroid :
+            switch (v.getId()) {
+                case R.id.buttonAddAndroid:
                     fragment = new AndroidFragment();
+                    fragmentTransaction.add(R.id.liearlayoutContainer, fragment);
                     break;
-                case R.id.buttonAddios :
+                case R.id.buttonAddios:
                     fragment = new IosFragment();
+                    fragmentTransaction.add(R.id.liearlayoutContainer, fragment);
+                    break;
+                case R.id.buttonReplaceAndroid:
+                    fragment = new AndroidFragment();
+                    fragmentTransaction.replace(R.id.liearlayoutContainer, fragment);
+                    break;
+                case R.id.buttonReplaceios :
+                    fragment = new IosFragment();
+                    fragmentTransaction.replace(R.id.liearlayoutContainer, fragment);
                     break;
             }
-            fragmentTransaction.add(R.id.liearlayoutContainer,fragment);
             fragmentTransaction.commit();
         }
     };
