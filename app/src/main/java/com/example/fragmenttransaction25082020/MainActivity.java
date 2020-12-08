@@ -13,7 +13,11 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     FragmentManager mFragmentManager;
-    Button mBtnAddAndroid, mBtnAddIos, mBtnReplaceAndroid, mBtnReplaceIos , mBtnRemoveAndroid, mBtnRemoveIos , mBtnPopBackStack;
+    Button mBtnAddAndroid, mBtnAddIos,
+            mBtnReplaceAndroid, mBtnReplaceIos,
+            mBtnRemoveAndroid, mBtnRemoveIos,
+            mBtnPopBackStack, mBtnDetach,
+            mBtnAtach;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         mBtnRemoveIos = findViewById(R.id.buttonRemoveios);
         mBtnRemoveAndroid = findViewById(R.id.buttonRemoveAndroid);
         mBtnPopBackStack = findViewById(R.id.buttonPopBackStack);
+        mBtnAtach = findViewById(R.id.buttonAttach);
+        mBtnDetach = findViewById(R.id.buttonDetach);
 
         mBtnAddIos.setOnClickListener(onClickListener);
         mBtnAddAndroid.setOnClickListener(onClickListener);
@@ -36,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         mBtnRemoveIos.setOnClickListener(onClickListener);
         mBtnRemoveAndroid.setOnClickListener(onClickListener);
         mBtnPopBackStack.setOnClickListener(onClickListener);
+        mBtnAtach.setOnClickListener(onClickListener);
+        mBtnDetach.setOnClickListener(onClickListener);
     }
 
     private OnClickListener onClickListener = new OnClickListener() {
@@ -46,19 +54,19 @@ public class MainActivity extends AppCompatActivity {
             switch (v.getId()) {
                 case R.id.buttonAddAndroid:
                     fragment = new AndroidFragment();
-                    fragmentTransaction.add(R.id.liearlayoutContainer, fragment , "fragmentAndroid");
+                    fragmentTransaction.add(R.id.liearlayoutContainer, fragment, "fragmentAndroid");
                     fragmentTransaction.addToBackStack("FragmentAndroid");
                     break;
                 case R.id.buttonAddios:
                     fragment = new IosFragment();
-                    fragmentTransaction.add(R.id.liearlayoutContainer, fragment , "fragmentIos");
+                    fragmentTransaction.add(R.id.liearlayoutContainer, fragment, "fragmentIos");
                     fragmentTransaction.addToBackStack("FragmentIos");
                     break;
                 case R.id.buttonReplaceAndroid:
                     fragment = new AndroidFragment();
                     fragmentTransaction.replace(R.id.liearlayoutContainer, fragment);
                     break;
-                case R.id.buttonReplaceios :
+                case R.id.buttonReplaceios:
                     fragment = new IosFragment();
                     fragmentTransaction.replace(R.id.liearlayoutContainer, fragment);
                     break;
@@ -67,7 +75,15 @@ public class MainActivity extends AppCompatActivity {
                     if (fragment != null) fragmentTransaction.remove(fragment);
                     break;
                 case R.id.buttonPopBackStack:
-                    mFragmentManager.popBackStack(1,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    mFragmentManager.popBackStack(1, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    break;
+                case R.id.buttonDetach :
+                    fragment = (AndroidFragment) mFragmentManager.findFragmentByTag("fragmentAndroid");
+                    fragmentTransaction.detach(fragment);
+                    break;
+                case R.id.buttonAttach :
+                    fragment = (AndroidFragment) mFragmentManager.findFragmentByTag("fragmentAndroid");
+                    fragmentTransaction.attach(fragment);
                     break;
             }
             fragmentTransaction.commit();

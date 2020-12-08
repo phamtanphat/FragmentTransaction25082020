@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,5 +27,11 @@ public class AndroidFragment extends Fragment {
     }
     private int randomColor(){
         return new Random().nextInt(255) + 1;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("BBB","onDestroyview");
     }
 }
